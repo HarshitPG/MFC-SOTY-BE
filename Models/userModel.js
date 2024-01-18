@@ -44,7 +44,8 @@ const UserSchema = mongoose.Schema(
     },
     score: {
       type: Number,
-      default: 0,
+      required: false,
+      // default: 0,
     },
   },
   { timestamps: true }

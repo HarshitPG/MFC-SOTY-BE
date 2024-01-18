@@ -6,21 +6,25 @@ const crypto = require("crypto");
 //Registering a new user
 
 const registerUser = async (req, res) => {
-  const { username, teamname, password } = req.body;
+  const { username, teamname, password, score } = req.body;
   console.log(req.body);
-  const salt = await bcrypt.genSalt(10);
-  const hashedPassword = await bcrypt.hash(password, salt);
-  console.log("Hashed Password: ", hashedPassword);
-  const newUser = new UserModel({
-    username: username,
-    teamname: teamname,
-    password: hashedPassword,
-  });
+
   try {
     const userAvailable = await UserModel.findOne({ username });
-    if (userAvailable)
+    if (userAvailable) {
       return res.status(400).json({ message: "User already exists" });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    console.log("Hashed Password: ", hashedPassword);
+    const newUser = new UserModel({
+      username: username,
+      teamname: teamname,
+      password: hashedPassword,
+      score: score,
+    });
     const user = await newUser.save();
+
     const token = jwt.sign(
       { username: user.username, id: user._id, teamname: user.teamname },
       process.env.ACCESS_TOKEN_SECERT,
