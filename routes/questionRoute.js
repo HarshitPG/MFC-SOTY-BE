@@ -1,11 +1,16 @@
 const express = require("express");
 const bodyParser = require("body-parser");
-const { getAllUser } = require("../controllers/userController");
+const {
+  getQuestions,
+  getAllQuestions,
+} = require("../controllers/questionController");
 
 const router = express.Router();
 
 router.use(bodyParser.json());
 
-router.get("/allusers", getAllUser);
+router.get("/:id", getQuestions);
+
+router.get("/all/:id", getAllQuestions);
 
 module.exports = router;
