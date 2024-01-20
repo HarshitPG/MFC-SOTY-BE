@@ -40,13 +40,10 @@ const registerUser = async (req, res) => {
 //login User
 
 const loginUser = async (req, res) => {
-  const { username, password, teamname } = req.body;
-  if (!username || !teamname || !password) {
-    res.status(400).json("All fields are mandatory!");
-  }
+  const { username, password } = req.body;
   try {
     const user = await UserModel.findOne({
-      $and: [{ username: username }, { teamname: teamname }],
+      username: username,
     });
     if (user) {
       const validity = await bcrypt.compare(password, user.password);
