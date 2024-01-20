@@ -45,7 +45,12 @@ const UserSchema = mongoose.Schema(
     score: {
       type: Number,
       required: false,
-      // default: 0,
+      default: 0,
+    },
+    questionsSeeded: {
+      type: Boolean,
+      required: true,
+      default: false,
     },
   },
   { timestamps: true }
