@@ -1,19 +1,17 @@
 const express = require("express");
-const bodyParser = require("body-parser");
+const validateToken = require("../middleware/validateTokenHandler");
 const {
   getQuestions,
   getAllQuestions,
+  getAllAnsweredQuestions,
   postAnswerQuestion,
 } = require("../controllers/questionController");
 
 const router = express.Router();
 
-router.use(bodyParser.json());
-
-router.get("/:id", getQuestions);
-
-router.post("/:id", postAnswerQuestion);
-
-router.get("/all/:id", getAllQuestions);
+router.post("/:id", validateToken, postAnswerQuestion);
+router.get("/:id", validateToken, getQuestions);
+router.get("/all/:id", validateToken, getAllQuestions);
+router.get("/allanswered/:id", validateToken, getAllAnsweredQuestions);
 
 module.exports = router;

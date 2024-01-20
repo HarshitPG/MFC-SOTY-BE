@@ -31,7 +31,8 @@ const registerUser = async (req, res) => {
       { expiresIn: "45m" }
     );
     console.log(`User created ${user}`);
-    res.status(200).json({ user, token });
+    console.log(`User token ${token}`);
+    res.status(200).json({ user });
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
@@ -51,11 +52,13 @@ const loginUser = async (req, res) => {
         res.send(400).json("Wrong password");
       } else {
         const token = jwt.sign(
-          { username: user.username, id: user._id, teamname: user.teamname },
+          { username: user.username, id: user._id },
           process.env.ACCESS_TOKEN_SECERT,
           { expiresIn: "45m" }
         );
-        res.status(200).json({ user, token });
+        console.log(`User created login : ${user}`);
+        console.log(`User token login: ${token}`);
+        res.status(200).json({ user });
       }
     } else {
       res.status(404).json("User not found");

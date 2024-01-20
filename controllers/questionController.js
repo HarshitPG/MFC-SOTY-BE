@@ -71,7 +71,9 @@ const getQuestions = async (req, res) => {
 //getAllQuestions based on users
 const getAllQuestions = async (req, res) => {
   try {
-    const allQuestions = await questionModel.find({ user_id: req.params.id });
+    const allQuestions = await questionModel.find({
+      user_id: req.params.id,
+    });
     if (allQuestions.length === 0) {
       return res
         .status(404)
@@ -84,6 +86,27 @@ const getAllQuestions = async (req, res) => {
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
+
+//getAllAnsweredQuestions based on users
+const getAllAnsweredQuestions = async (req, res) => {
+  try {
+    const allQuestions = await questionModel.find({
+      user_id: req.params.id,
+      answered: "true",
+    });
+    if (allQuestions.length === 0) {
+      return res
+        .status(404)
+        .json({ message: "The user haven't started the game." });
+    }
+    // console.log(allQuestions);
+    res.status(200).json(allQuestions);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 //postAnswer
 const postAnswerQuestion = async (req, res) => {
   try {
@@ -112,7 +135,7 @@ const postAnswerQuestion = async (req, res) => {
 
           await questionModel.findOneAndUpdate(
             { user_id: id, question: question },
-            { answered: true }
+            { answered: "true" }
           );
           return res.status(200).json({
             message: "Correct answer!",
@@ -137,4 +160,9 @@ const postAnswerQuestion = async (req, res) => {
   }
 };
 
-module.exports = { getQuestions, getAllQuestions, postAnswerQuestion };
+module.exports = {
+  getQuestions,
+  getAllQuestions,
+  getAllAnsweredQuestions,
+  postAnswerQuestion,
+};
