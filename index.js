@@ -12,7 +12,6 @@ const app = express();
 
 const port = process.env.PORT || 5000;
 
-app.use(express.json());
 app.use("/auth", AuthRoute);
 app.use("/users", userRoute);
 app.use("/questions", questionRoute);
