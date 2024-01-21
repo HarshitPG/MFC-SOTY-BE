@@ -111,7 +111,7 @@ const getAllAnsweredQuestions = async (req, res) => {
 const postAnswerQuestion = async (req, res) => {
   try {
     const { id } = req.params;
-    const { question, answer, points, difficultyLevel, score } = req.body;
+    const { question, answer, points, difficultyLevel } = req.body;
     const postAnswers = await questionModel.findOne({
       user_id: id,
       question: question,
