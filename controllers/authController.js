@@ -56,7 +56,7 @@ const loginUser = async (req, res) => {
         const token = jwt.sign(
           { username: user.username, id: user._id },
           process.env.ACCESS_TOKEN_SECERT,
-          { expiresIn: "45m" }
+          { expiresIn: "1d" }
         );
 
         const refreshToken = generateRefreshToken(user);
@@ -82,9 +82,19 @@ const loginUser = async (req, res) => {
 };
 
 //refreshToken
-
 const refreshToken = async (req, res) => {
   const { refreshToken } = req.body;
+  let token;
+  let authHeader = req.headers.authorization || req.headers.Authorization;
+
+  if (!authHeader || !authHeader.startsWith("Bearer")) {
+    return res
+      .status(401)
+      .json({ message: "User is not authorized or token missing" });
+  }
+
+  token = authHeader.split(" ")[1];
+
   if (!refreshToken) {
     return res.status(400).json({ message: "refreshToken is required." });
   }
@@ -107,6 +117,8 @@ const refreshToken = async (req, res) => {
     );
     res.header("Authorization", `Bearer ${newAccessToken}`);
     res.status(200).json({ accessToken: newAccessToken });
+    user.prevAccessToken.push(token);
+    await user.save();
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
