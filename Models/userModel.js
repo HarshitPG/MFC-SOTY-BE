@@ -60,6 +60,12 @@ const UserSchema = mongoose.Schema(
       type: Number,
       default: 0,
     },
+    accessTokens: {
+      type: [String],
+    },
+    prevAccessToken: {
+      type: [String],
+    },
   },
   { timestamps: true }
 );

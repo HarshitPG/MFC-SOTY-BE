@@ -31,6 +31,7 @@ const registerUser = async (req, res) => {
       process.env.ACCESS_TOKEN_SECERT,
       { expiresIn: "45m" }
     );
+
     console.log(`User created ${user}`);
     console.log(`User token ${token}`);
     res.status(200).json({ user });
@@ -57,12 +58,20 @@ const loginUser = async (req, res) => {
           process.env.ACCESS_TOKEN_SECERT,
           { expiresIn: "45m" }
         );
+
         const refreshToken = generateRefreshToken(user);
         user.refreshToken = refreshToken;
+
+        user.prevAccessToken = user.accessTokens;
+        user.accessTokens = [];
         await user.save();
+
+        user.accessTokens.push(token);
+        await user.save();
+
         console.log(`User created login : ${user}`);
         console.log(`User token login: ${token}`);
-        res.status(200).json({ user, token });
+        res.status(200).json({ user, token, refreshToken });
       }
     } else {
       res.status(404).json("User not found");
