@@ -32,6 +32,11 @@ const getAllUser = async (req, res) => {
 const updateScore = async (req, res) => {
   const { username, newscore } = req.body;
   try {
+    if (typeof newscore !== "number") {
+      return res
+        .status(404)
+        .json({ message: "Invalid score. Score must be a number" });
+    }
     const user = await UserModel.findOne({ username: username });
     if (!user) {
       return res.status(404).json({ message: "User not found" });
