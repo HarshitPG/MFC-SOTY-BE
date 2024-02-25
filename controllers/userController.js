@@ -34,7 +34,7 @@ const updateScore = async (req, res) => {
   try {
     if (typeof newscore !== "number") {
       return res
-        .status(404)
+        .status(400)
         .json({ message: "Invalid score. Score must be a number" });
     }
     const user = await UserModel.findOne({ username: username });

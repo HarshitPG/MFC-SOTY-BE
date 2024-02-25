@@ -119,7 +119,11 @@ const postAnswerQuestion = async (req, res) => {
       answered: "pending",
       difficultyLevel: difficultyLevel,
     });
-
+    if (typeof points !== "number") {
+      return res
+        .status(400)
+        .json({ message: "Invalid score. Score must be a number" });
+    }
     if (postAnswers) {
       const questions = JSON.parse(fs.readFileSync(questionFilePath, "utf8"));
       const matchingQuestion = questions.filter(
