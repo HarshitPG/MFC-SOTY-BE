@@ -1,5 +1,4 @@
 const UserModel = require("../Models/userModel");
-const bcrypt = require("bcrypt");
 
 const getAllUser = async (req, res) => {
   try {
@@ -29,4 +28,43 @@ const getAllUser = async (req, res) => {
   }
 };
 
-module.exports = { getAllUser };
+//update user score
+const updateScore = async (req, res) => {
+  const { username, newscore } = req.body;
+  try {
+    const user = await UserModel.findOne({ username: username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    await UserModel.updateOne(
+      { username: username },
+      { $set: { score: newscore } }
+    );
+    res.status(200).json({ message: "Score updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+//update user password
+const updatePassword = async (req, res) => {
+  const { username, newpassword } = req.body;
+  try {
+    const user = await UserModel.findOne({ username: username });
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    await UserModel.updateOne(
+      { username: username },
+      { $set: { password: hashedPassword } }
+    );
+    await user.save();
+    res.status(200).json({ message: "Password updated successfully" });
+  } catch (error) {
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { getAllUser, updateScore, updatePassword };
