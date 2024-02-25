@@ -54,7 +54,7 @@ const loginUser = async (req, res) => {
         res.send(400).json("Wrong password");
       } else {
         const token = jwt.sign(
-          { username: user.username, id: user._id },
+          { username: user.username, id: user._id, isAdmin: user.isAdmin },
           process.env.ACCESS_TOKEN_SECERT,
           { expiresIn: "1d" }
         );
