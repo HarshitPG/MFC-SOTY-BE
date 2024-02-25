@@ -55,7 +55,7 @@ const updatePassword = async (req, res) => {
       return res.status(404).json({ message: "User not found" });
     }
     const salt = await bcrypt.genSalt(10);
-    const hashedPassword = await bcrypt.hash(password, salt);
+    const hashedPassword = await bcrypt.hash(newpassword, salt);
     await UserModel.updateOne(
       { username: username },
       { $set: { password: hashedPassword } }
