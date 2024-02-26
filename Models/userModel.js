@@ -66,6 +66,14 @@ const UserSchema = mongoose.Schema(
     prevAccessToken: {
       type: [String],
     },
+    inCorrectStreaks: {
+      type: Number,
+      default: 0,
+    },
+    lastIncorrectAttemptTime: {
+      type: Date,
+      default: null,
+    },
   },
   { timestamps: true }
 );

@@ -113,6 +113,13 @@ const postAnswerQuestion = async (req, res) => {
   try {
     const { id } = req.params;
     const { question, answer, points, difficultyLevel } = req.body;
+
+    const user = await userModel.findById(id);
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found." });
+    }
+    console.log("user", user);
     const postAnswers = await questionModel.findOne({
       user_id: id,
       question: question,
@@ -138,6 +145,8 @@ const postAnswerQuestion = async (req, res) => {
           const updatedScore = user.score + points;
           await userModel.findByIdAndUpdate(id, { score: updatedScore });
 
+          await userModel.findByIdAndUpdate(id, { inCorrectStreaks: 0 });
+
           await questionModel.findOneAndUpdate(
             { user_id: id, question: question },
             { answered: "true" }
@@ -150,14 +159,27 @@ const postAnswerQuestion = async (req, res) => {
           return res.status(404).json({ message: "User not found." });
         }
       } else {
+        await userModel.findByIdAndUpdate(id, {
+          lastIncorrectAttemptTime: Date.now(),
+        });
+        const updatedStreaks = user.inCorrectStreaks + 1;
+        await userModel.findByIdAndUpdate(id, {
+          inCorrectStreaks: updatedStreaks,
+        });
+        await user.save();
+
+        console.log(user.inCorrectStreaks);
+        console.log(user.lastIncorrectAttemptTime);
+
         return res.status(200).json({
           message: "Incorrect answer. Try again.",
+          wrongAttempts: `${updatedStreaks}`,
         });
       }
     }
     console.log("postAnswers", postAnswers);
     return res.status(404).json({
-      message: "Check your post req.something is wrong.",
+      message: "Already answered the question",
     });
   } catch (error) {
     console.error(error);
