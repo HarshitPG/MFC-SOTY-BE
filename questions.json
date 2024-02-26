@@ -1,7 +1,7 @@
 [
   {
     "question": "Question 1",
-    "answer": "Answer 1",
+    "answer": "Answer 5",
     "points": 100,
     "difficultyLevel": "hard",
     "answered": "pending"
@@ -36,7 +36,7 @@
   },
   {
     "question": "Question 6",
-    "answer": "Answer 6",
+    "answer": "Answer 5",
     "points": 60,
     "difficultyLevel": "easy",
     "answered": "pending"
@@ -71,7 +71,7 @@
   },
   {
     "question": "Question 11",
-    "answer": "Answer 11",
+    "answer": "Answer 5",
     "points": 80,
     "difficultyLevel": "medium",
     "answered": "pending"
@@ -106,7 +106,7 @@
   },
   {
     "question": "Question 16",
-    "answer": "Answer 16",
+    "answer": "Answer 5",
     "points": 100,
     "difficultyLevel": "hard",
     "answered": "pending"
@@ -141,7 +141,7 @@
   },
   {
     "question": "Question 21",
-    "answer": "Answer 21",
+    "answer": "Answer 5",
     "points": 60,
     "difficultyLevel": "easy",
     "answered": "pending"
@@ -176,7 +176,7 @@
   },
   {
     "question": "Question 26",
-    "answer": "Answer 26",
+    "answer": "Answer 5",
     "points": 80,
     "difficultyLevel": "medium",
     "answered": "pending"
@@ -211,7 +211,7 @@
   },
   {
     "question": "Question 31",
-    "answer": "Answer 31",
+    "answer": "Answer 5",
     "points": 100,
     "difficultyLevel": "hard",
     "answered": "pending"
@@ -246,7 +246,7 @@
   },
   {
     "question": "Question 36",
-    "answer": "Answer 36",
+    "answer": "Answer 5",
     "points": 60,
     "difficultyLevel": "easy",
     "answered": "pending"
@@ -281,7 +281,7 @@
   },
   {
     "question": "Question 41",
-    "answer": "Answer 41",
+    "answer": "Answer 5",
     "points": 80,
     "difficultyLevel": "medium",
     "answered": "pending"
@@ -316,7 +316,7 @@
   },
   {
     "question": "Question 46",
-    "answer": "Answer 46",
+    "answer": "Answer 5",
     "points": 100,
     "difficultyLevel": "hard",
     "answered": "pending"
