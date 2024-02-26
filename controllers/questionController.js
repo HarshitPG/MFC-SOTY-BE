@@ -33,6 +33,7 @@ const getQuestions = async (req, res) => {
       res.status(200).json(questionToDisplay);
     } else {
       const filteredQuestion = await questionModel.find({
+        user_id: id,
         difficultyLevel: difficultyLevel,
         answered: "false",
       });
