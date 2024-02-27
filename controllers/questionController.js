@@ -144,8 +144,10 @@ const postAnswerQuestion = async (req, res) => {
         if (user) {
           const updatedScore = user.score + points;
           await userModel.findByIdAndUpdate(id, { score: updatedScore });
-
-          await userModel.findByIdAndUpdate(id, { inCorrectStreaks: 0 });
+          await userModel.findByIdAndUpdate(id, { canAnswer: true });
+          await userModel.findByIdAndUpdate(id, {
+            inCorrectStreaks: 0,
+          });
 
           await questionModel.findOneAndUpdate(
             { user_id: id, question: question },
@@ -187,9 +189,48 @@ const postAnswerQuestion = async (req, res) => {
   }
 };
 
+const TimeOut = 2 * 60 * 1000;
+
+const getAnsweringStatus = async (req, res) => {
+  const { id } = req.params;
+  try {
+    const user = await userModel.findById(id);
+    const canAnswer = user.canAnswer;
+    if (!canAnswer) {
+      const timeElapsed = Date.now() - user.lastIncorrectAttemptTime;
+
+      if (timeElapsed < TimeOut) {
+        const remainingTime = TimeOut - timeElapsed;
+        await userModel.findByIdAndUpdate(req.params.id, { canAnswer: false });
+        return res.status(400).json({
+          user,
+          message: `You have made too many wrong attempts. Please wait for ${remainingTime} milliseconds.`,
+          remainingTime: remainingTime,
+          canAnswer: canAnswer,
+        });
+      } else {
+        await userModel.findByIdAndUpdate(id, {
+          canAnswer: true,
+        });
+        return res.status(400).json({
+          user,
+          message: `You can answer`,
+          canAnswer: canAnswer,
+        });
+      }
+    }
+    console.log(user);
+    return res.status(200).json({ user, message: "User can answer" });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
 module.exports = {
   getQuestions,
   getAllQuestions,
   getAllAnsweredQuestions,
   postAnswerQuestion,
+  getAnsweringStatus,
 };

@@ -7,6 +7,7 @@ const {
   getAllQuestions,
   getAllAnsweredQuestions,
   postAnswerQuestion,
+  getAnsweringStatus,
 } = require("../controllers/questionController");
 
 const router = express.Router();
@@ -25,6 +26,12 @@ router.get(
   validateToken,
   isSingleLogin,
   getAllAnsweredQuestions
+);
+router.get(
+  "/answeringStatus/:id",
+  validateToken,
+  isSingleLogin,
+  getAnsweringStatus
 );
 
 module.exports = router;

@@ -11,11 +11,12 @@ const incorrectStreak = async (req, res, next) => {
       return res.status(404).json({ message: "User not found." });
     }
 
-    if (user.inCorrectStreaks >= 4) {
+    if (user.inCorrectStreaks >= 2) {
       const timeElapsed = Date.now() - user.lastIncorrectAttemptTime;
 
       if (timeElapsed < TimeOut) {
         const remainingTime = TimeOut - timeElapsed;
+        await userModel.findByIdAndUpdate(req.params.id, { canAnswer: false });
         return res.status(400).json({
           message: `You have made too many wrong attempts. Please wait for ${remainingTime} milliseconds.`,
           remainingTime: remainingTime,
@@ -24,6 +25,7 @@ const incorrectStreak = async (req, res, next) => {
         await userModel.findByIdAndUpdate(id, {
           inCorrectStreaks: 0,
           lastIncorrectAttemptTime: null,
+          canAnswer: true,
         });
       }
     }

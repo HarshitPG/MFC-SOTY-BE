@@ -74,6 +74,11 @@ const UserSchema = mongoose.Schema(
       type: Date,
       default: null,
     },
+    canAnswer: {
+      type: Boolean,
+      default: true,
+    },
+    updatedAnswerAt: { type: String, default: null },
   },
   { timestamps: true }
 );
