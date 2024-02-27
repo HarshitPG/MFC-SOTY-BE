@@ -207,6 +207,7 @@ const getAnsweringStatus = async (req, res) => {
           message: `You have made too many wrong attempts. Please wait for ${remainingTime} milliseconds.`,
           remainingTime: remainingTime,
           canAnswer: canAnswer,
+          thirdIncorrectTime: thirdIncorrectTime,
         });
       } else {
         await userModel.findByIdAndUpdate(id, {
