@@ -202,7 +202,7 @@ const getAnsweringStatus = async (req, res) => {
       if (timeElapsed < TimeOut) {
         const remainingTime = TimeOut - timeElapsed;
         await userModel.findByIdAndUpdate(req.params.id, { canAnswer: false });
-        return res.status(400).json({
+        return res.status(200).json({
           message: `You have made too many wrong attempts. Please wait for ${remainingTime} milliseconds.`,
           remainingTime: remainingTime,
           canAnswer: canAnswer,
@@ -211,7 +211,7 @@ const getAnsweringStatus = async (req, res) => {
         await userModel.findByIdAndUpdate(id, {
           canAnswer: true,
         });
-        return res.status(400).json({
+        return res.status(200).json({
           message: `You can answer`,
           canAnswer: canAnswer,
         });
