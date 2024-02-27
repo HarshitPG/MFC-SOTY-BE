@@ -218,7 +218,7 @@ const getAnsweringStatus = async (req, res) => {
       }
     }
     console.log(user);
-    return res.status(200).json({ user, message: "User can answer" });
+    return res.status(200).json({ canAnswer, message: "User can answer" });
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Internal Server Error" });
