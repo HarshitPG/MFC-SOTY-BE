@@ -17,7 +17,7 @@ const incorrectStreak = async (req, res, next) => {
       if (timeElapsed < TimeOut) {
         const remainingTime = TimeOut - timeElapsed;
         await userModel.findByIdAndUpdate(req.params.id, { canAnswer: false });
-        return res.status(400).json({
+        return res.status(200).json({
           message: `You have made too many wrong attempts. Please wait for ${remainingTime} milliseconds.`,
           remainingTime: remainingTime,
         });

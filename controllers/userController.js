@@ -1,4 +1,5 @@
 const UserModel = require("../Models/userModel");
+const bcrypt = require("bcrypt");
 
 const getAllUser = async (req, res) => {
   try {
@@ -68,6 +69,7 @@ const updatePassword = async (req, res) => {
     await user.save();
     res.status(200).json({ message: "Password updated successfully" });
   } catch (error) {
+    console.log(error);
     res.status(500).json({ error: "Internal Server Error" });
   }
 };
