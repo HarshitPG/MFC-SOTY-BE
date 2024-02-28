@@ -17,7 +17,7 @@ const getAllUser = async (req, res) => {
       sortBy[sort[0]] = "desc";
     }
     const users = await UserModel.find({ isAdmin: false })
-      .select("username score updatedAnswerAt ")
+      .select("username score updatedAnswerAt isBan")
       .sort({ score: "desc", updatedAnswerAt: "asc" })
       .skip(skip)
       .limit(limit)
