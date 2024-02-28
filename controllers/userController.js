@@ -90,7 +90,7 @@ const isBanStatus = async (req, res) => {
     }
 
     if (user.isBan && banstatus === true) {
-      const TimeOut = 10 * 60 * 1000;
+      const TimeOut = 120 * 60 * 1000;
 
       const timeElapsed = Date.now() - user.banTime;
 
@@ -109,7 +109,7 @@ const isBanStatus = async (req, res) => {
       banTime = new Date();
       setTimeout(async () => {
         await UserModel.updateOne({ username }, { $set: { isBan: false } });
-      }, 10 * 60 * 1000);
+      }, 120 * 60 * 1000);
       await UserModel.updateOne(
         { username: username },
         { $set: { isBan: banstatus, banTime: banTime } }

@@ -51,7 +51,7 @@ const loginUser = async (req, res) => {
 
     if (user) {
       if (user.isBan) {
-        const TimeOut = 10 * 60 * 1000;
+        const TimeOut = 120 * 60 * 1000;
 
         const timeElapsed = Date.now() - user.banTime;
 
