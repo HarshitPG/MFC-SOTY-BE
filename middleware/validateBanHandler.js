@@ -29,7 +29,7 @@ const isBanned = async (req, res, next) => {
       if (timeElapsed < TimeOut) {
         const remainingTime = TimeOut - timeElapsed;
         await UserModel.findByIdAndUpdate(req.params.id, { isBan: true });
-        return res.status(403).json({
+        return res.status(200).json({
           message: `User has banned. Please wait for ${remainingTime} milliseconds.`,
           remainingTime: remainingTime,
           isBan: user.isBan,
