@@ -16,9 +16,9 @@ const getAllUser = async (req, res) => {
     } else {
       sortBy[sort[0]] = "desc";
     }
-    const users = await UserModel.find()
-      .select("username score updatedAt")
-      .sort({ score: "desc", updatedAt: "asc" })
+    const users = await UserModel.find({ isAdmin: false })
+      .select("username score updatedAnswerAt ")
+      .sort({ score: "desc", updatedAnswerAt: "asc" })
       .skip(skip)
       .limit(limit)
       .exec();
@@ -74,4 +74,60 @@ const updatePassword = async (req, res) => {
   }
 };
 
-module.exports = { getAllUser, updateScore, updatePassword };
+//Update Ban status
+const isBanStatus = async (req, res) => {
+  const { username, banstatus } = req.body;
+  try {
+    const user = await UserModel.findOne({ username });
+
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    if (typeof banstatus !== "boolean") {
+      return res
+        .status(400)
+        .json({ message: "Invalid ban input. it must be a boolean" });
+    }
+
+    if (user.isBan && banstatus === true) {
+      const TimeOut = 10 * 60 * 1000;
+
+      const timeElapsed = Date.now() - user.banTime;
+
+      if (timeElapsed < TimeOut) {
+        const remainingTime = TimeOut - timeElapsed;
+        await UserModel.findByIdAndUpdate(req.params.id, { isBan: true });
+        return res.status(200).json({
+          message: `User has banned already. Please wait for ${remainingTime} milliseconds.`,
+          remainingTime: remainingTime,
+          isBan: user.isBan,
+        });
+      }
+    }
+
+    if (banstatus === true) {
+      banTime = new Date();
+      setTimeout(async () => {
+        await UserModel.updateOne({ username }, { $set: { isBan: false } });
+      }, 10 * 60 * 1000);
+      await UserModel.updateOne(
+        { username: username },
+        { $set: { isBan: banstatus, banTime: banTime } }
+      );
+    } else {
+      await UserModel.updateOne(
+        { username: username },
+        { $set: { isBan: banstatus, banTime: null } }
+      );
+    }
+
+    res
+      .status(200)
+      .json({ user, message: `Ban status updated successfully ${banstatus}` });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+};
+
+module.exports = { getAllUser, updateScore, updatePassword, isBanStatus };

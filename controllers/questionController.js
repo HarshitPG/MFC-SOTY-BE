@@ -11,7 +11,7 @@ const getQuestions = async (req, res) => {
   const { difficultyLevel } = req.query;
   try {
     if (questionModel.length === 0) {
-      return res.status(404).json({
+      return res.status(200).json({
         message: "No questions available.",
       });
     }

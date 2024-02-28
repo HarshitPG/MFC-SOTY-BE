@@ -48,7 +48,23 @@ const loginUser = async (req, res) => {
     const user = await UserModel.findOne({
       username: username,
     });
+
     if (user) {
+      if (user.isBan) {
+        const TimeOut = 10 * 60 * 1000;
+
+        const timeElapsed = Date.now() - user.banTime;
+
+        if (timeElapsed < TimeOut) {
+          const remainingTime = TimeOut - timeElapsed;
+          await UserModel.findByIdAndUpdate(req.params.id, { isBan: true });
+          return res.status(403).json({
+            message: `User has banned. Please wait for ${remainingTime} milliseconds.`,
+            remainingTime: remainingTime,
+            isBan: user.isBan,
+          });
+        }
+      }
       const validity = await bcrypt.compare(password, user.password);
       if (!validity) {
         res.send(400).json("Wrong password");

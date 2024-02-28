@@ -78,7 +78,12 @@ const UserSchema = mongoose.Schema(
       type: Boolean,
       default: true,
     },
-    updatedAnswerAt: { type: String, default: null },
+    updatedAnswerAt: { type: Date, default: null },
+    isBan: {
+      type: Boolean,
+      default: false,
+    },
+    banTime: { type: Date, default: null },
   },
   { timestamps: true }
 );
