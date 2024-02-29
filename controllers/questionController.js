@@ -143,6 +143,9 @@ const postAnswerQuestion = async (req, res) => {
         const user = await userModel.findById(id);
         if (user) {
           const updatedScore = user.score + points;
+          await userModel.findByIdAndUpdate(id, {
+            updatedAnswerAt: Date.now(),
+          });
           await userModel.findByIdAndUpdate(id, { score: updatedScore });
           await userModel.findByIdAndUpdate(id, { canAnswer: true });
           await userModel.findByIdAndUpdate(id, {
