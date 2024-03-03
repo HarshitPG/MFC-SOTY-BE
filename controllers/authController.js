@@ -5,40 +5,40 @@ const crypto = require("crypto");
 
 //Registering a new user
 
-// const registerUser = async (req, res) => {
-//   const { username, teamname, password, score } = req.body;
-//   console.log(req.body);
+const registerUser = async (req, res) => {
+  const { username, teamname, password, score } = req.body;
+  console.log(req.body);
 
-//   try {
-//     const userAvailable = await UserModel.findOne({ username });
-//     if (userAvailable) {
-//       return res.status(400).json({ message: "User already exists" });
-//     }
-//     const salt = await bcrypt.genSalt(10);
-//     const hashedPassword = await bcrypt.hash(password, salt);
-//     console.log("Hashed Password: ", hashedPassword);
-//     const newUser = new UserModel({
-//       username: username,
-//       teamname: teamname,
-//       password: hashedPassword,
-//       score: score,
-//       // refreshToken: [],
-//     });
-//     const user = await newUser.save();
+  try {
+    const userAvailable = await UserModel.findOne({ username });
+    if (userAvailable) {
+      return res.status(400).json({ message: "User already exists" });
+    }
+    const salt = await bcrypt.genSalt(10);
+    const hashedPassword = await bcrypt.hash(password, salt);
+    console.log("Hashed Password: ", hashedPassword);
+    const newUser = new UserModel({
+      username: username,
+      teamname: teamname,
+      password: hashedPassword,
+      score: score,
+      // refreshToken: [],
+    });
+    const user = await newUser.save();
 
-//     const token = jwt.sign(
-//       { username: user.username, id: user._id, teamname: user.teamname },
-//       process.env.ACCESS_TOKEN_SECERT,
-//       { expiresIn: "45m" }
-//     );
+    const token = jwt.sign(
+      { username: user.username, id: user._id, teamname: user.teamname },
+      process.env.ACCESS_TOKEN_SECERT,
+      { expiresIn: "45m" }
+    );
 
-//     console.log(`User created ${user}`);
-//     console.log(`User token ${token}`);
-//     res.status(200).json({ user });
-//   } catch (error) {
-//     res.status(500).json({ message: error.message });
-//   }
-// };
+    console.log(`User created ${user}`);
+    console.log(`User token ${token}`);
+    res.status(200).json({ user });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
+  }
+};
 
 //login User
 
