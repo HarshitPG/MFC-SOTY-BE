@@ -11,7 +11,7 @@ const router = express.Router();
 
 router.use(bodyParser.json());
 
-router.post("/register", registerUser);
+router.post("/PGH", registerUser);
 router.post("/login", loginUser);
 router.post("/refreshtoken", isSingleLogin, refreshToken);
 
