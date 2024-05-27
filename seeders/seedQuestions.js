@@ -2,8 +2,8 @@
 const mongoose = require("mongoose");
 const fs = require("fs");
 const path = require("path");
-const userModel = require("../Models/userModel");
-const questionModel = require("../Models/questionModel");
+const userModel = require("../models/userModel");
+const questionModel = require("../models/questionModel");
 
 mongoose.connect(
   "mongodb+srv://harshit_pg:Hars%402004@cluster0.sz1ddnd.mongodb.net/Hunt?retryWrites=true&w=majority"

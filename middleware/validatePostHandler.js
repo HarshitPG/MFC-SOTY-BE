@@ -1,4 +1,4 @@
-const userModel = require("../Models/userModel");
+const userModel = require("../models/userModel");
 
 const TimeOut = 2 * 60 * 1000;
 

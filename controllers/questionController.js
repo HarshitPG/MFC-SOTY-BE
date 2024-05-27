@@ -1,7 +1,7 @@
 const fs = require("fs");
 const path = require("path");
-const userModel = require("../Models/userModel");
-const questionModel = require("../Models/questionModel");
+const userModel = require("../models/userModel");
+const questionModel = require("../models/questionModel");
 
 const questionFilePath = path.join(__dirname, "../questions.json");
 
